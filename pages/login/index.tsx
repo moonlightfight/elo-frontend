@@ -7,11 +7,11 @@ import { UserContext } from "../../contexts/UserContext"
 export default function Login() {
   const [email, setEmail] = useState<string>("")
   const [password, setPassword] = useState<string>("")
-  const {setLogin} = useContext(UserContext)
   const router = useRouter()
-
+  
   async function submitLogin(e): Promise<void> {
     e.preventDefault()
+    const { setLogin } = useContext(UserContext)
     try {
       const res = await axios({
         method: "POST",
