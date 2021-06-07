@@ -1,12 +1,14 @@
 import { useState, useContext } from "react"
 import axios from 'axios'
 import Head from "next/head"
+import {useRouter} from 'next/router'
 import { UserContext } from "../../contexts/UserContext"
 
 export default function Login() {
   const [email, setEmail] = useState<string>("")
   const [password, setPassword] = useState<string>("")
   const {setLogin} = useContext(UserContext)
+  const router = useRouter()
 
   async function submitLogin(e): Promise<void> {
     e.preventDefault()
@@ -21,6 +23,7 @@ export default function Login() {
       })
       const {token, _id} = res.data
       setLogin(token, _id)
+      router.push('/')
     } catch (err) {
       console.log(err)
     }
@@ -34,10 +37,10 @@ export default function Login() {
       <h2 className="text-center text-xl font-bold">Admin Login</h2>
       <form className="mt-4" onSubmit={submitLogin}>
         <fieldset>
-          <input type="text" name="email" className="w-full mb-4 border-blue-200 border-b-4 rounded-md px-2 py-1 focus:border-pink-200" value={email} onChange={e => {
+          <input type="text" name="email" className="text-field" value={email} onChange={e => {
             setEmail(e.target.value)
           }} placeholder="Email address" />
-          <input type="password" name="password" className="w-full mb-4 border-blue-200 border-b-4 rounded-md px-2 py-1 focus:border-pink-200" value={password} onChange={e => {
+          <input type="password" name="password" className="text-field" value={password} onChange={e => {
             setPassword(e.target.value)
           }} placeholder="Password" />
           <button className="button" type="submit">Login</button>
