@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
-import {removeToken, setToken} from './helpers/token'
+import {removeToken, setToken as storeToken, getToken} from './helpers/token'
 
 interface IUserContext {
   token: string | null;
@@ -22,8 +22,14 @@ const UserContextProvider: React.FC = (props) => {
   const setLogin = (token: string, userId: string): void => {
     setToken(token)
     setUserId(userId)
-    setToken(token)
+    storeToken(token)
   }
+
+  useEffect(() => {
+    if (token === null) {
+      setToken(getToken())
+    }
+  }, [token])
 
   const doLogout = (): void => {
     removeToken();
