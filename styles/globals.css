@@ -19,3 +19,18 @@
 .button:hover {
   @apply shadow-half;
 }
+
+.text-field {
+  @apply w-full;
+  @apply mb-4;
+  @apply border-blue-200;
+  @apply border-b-4;
+  @apply rounded-md;
+  @apply px-2;
+  @apply py-1;
+  transition: all 0.3s ease-in-out;
+}
+
+.text-field:focus {
+  @apply border-pink-200;
+}
