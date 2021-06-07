@@ -2,3 +2,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.button {
+  @apply bg-pink-900;
+  @apply text-yellow-100;
+  @apply uppercase;
+  @apply px-4;
+  @apply py-2;
+  @apply rounded-sm;
+  @apply font-bold;
+  @apply shadow-full;
+  @apply cursor-pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.button:hover {
+  @apply shadow-half;
+}
