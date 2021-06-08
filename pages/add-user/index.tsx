@@ -14,7 +14,7 @@ export default function AddUser() {
   const submitNewUser = async (e): Promise<void> => {
     e.preventDefault();
     const rng: number = Math.floor(Math.random() * 100000);
-    const password = `${username.replace(' ', '').toLowerCase()}-${rng}`
+    const password: string = `${username.replace(' ', '').toLowerCase()}-${rng}`
     try {
       await axios({
         method: "POST",
@@ -33,8 +33,8 @@ export default function AddUser() {
 
   const copyToClipboard = (e) => {
     e.preventDefault();
-    const string = `Email: ${newUser.email} \nUsername: ${newUser.username} \nPassword: ${newUser.password}`
-    let tempInput = window.document.createElement("textarea");
+    const string: string = `Email: ${newUser.email} \nUsername: ${newUser.username} \nPassword: ${newUser.password}`
+    let tempInput: HTMLTextAreaElement = window.document.createElement("textarea");
     window.document.body.appendChild(tempInput);
 		tempInput.value = string;
 		tempInput.select();
@@ -71,7 +71,6 @@ export default function AddUser() {
           </>
         )
       }
-      
     </div>
   )
 }
