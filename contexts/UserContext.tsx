@@ -11,8 +11,8 @@ interface IUserContext {
 export const UserContext = createContext<IUserContext>({
   token: null,
   userId: null,
-  setLogin: () => {return null},
-  doLogout: () => {return null}
+  setLogin: () => { return null },
+  doLogout: () => { return null }
 });
 
 const UserContextProvider: React.FC = (props) => {
