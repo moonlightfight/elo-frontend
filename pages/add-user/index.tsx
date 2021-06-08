@@ -11,6 +11,7 @@ export default function AddUser() {
   const [email, setEmail] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const [newUser, setNewUser] = useState<NewUser|null>(null);
+  const [copied, setCopied] = useState<boolean>(false)
   const submitNewUser = async (e): Promise<void> => {
     e.preventDefault();
     const rng: number = Math.floor(Math.random() * 100000);
@@ -67,7 +68,7 @@ export default function AddUser() {
             <p><span className="font-bold">Email:</span> {newUser.email}</p>
             <p><span className="font-bold">Username:</span> {newUser.username}</p>
             <p><span className="font-bold">Password:</span> {newUser.password}</p>
-            <button className="button" onClick={copyToClipboard}>Copy to Clipboard</button>
+            <button className="button" onClick={copyToClipboard} disabled={copied}>{copied ? 'Copied!' : 'Copy to Clipboard'}</button>
           </>
         )
       }
