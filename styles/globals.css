@@ -20,6 +20,10 @@
   @apply shadow-half;
 }
 
+.button:disabled {
+  box-shadow: none;
+}
+
 .text-field {
   @apply w-full;
   @apply mb-4;
@@ -33,4 +37,8 @@
 
 .text-field:focus {
   @apply border-pink-200;
+}
+
+.text-field:disabled {
+  @apply border-purple-200;
 }

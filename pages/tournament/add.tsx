@@ -29,19 +29,28 @@ export default function Add() {
       <Head>
         <title>Add Tournament - SMS Global Rankings</title>
       </Head>
-      <h2 className="text-center text-xl font-bold">Add Tournament</h2>
-      <form onSubmit={getTournamentInfo}>
+      <h2 className="text-center text-xl font-bold mt-4">Add Tournament</h2>
+      <form onSubmit={getTournamentInfo} className="mx-auto w-1/3 p-4">
         <fieldset disabled={tournament !== null}>
-          <input type="text" name="tournamentUrl" value={tournamentUrl} onChange={e => {
+          <input type="text" name="tournamentUrl" className="text-field" value={tournamentUrl} onChange={e => {
             setTournamentUrl(e.target.value)
           }} placeholder="Input Smash.gg or Challonge URL" />
           <button className="button" disabled={tournament !== null}>Get tournament info</button>
         </fieldset>
       </form>
       {tournament && (
-        <div>
-          <p>tournament retrieved lesgo</p>
-        </div>
+        <>
+          <h3 className="text-center text-xl font-bold mt-4">Please check and validate the following tournament information</h3>
+          <form>
+            <fieldset>
+              <div className="w-1/3 mx-auto p-4">
+                <input type="text" className="text-field" placeholder="Tournament Name" value={tournament.title} onChange={e => {
+                  setTournament({...tournament, title: e.target.value})
+                }} />
+              </div>
+            </fieldset>
+          </form>
+        </>
       )}
     </div>
   )
