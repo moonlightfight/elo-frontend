@@ -11,7 +11,7 @@ export default function Header() {
         <h1 className="text-5xl">Sailor Moon S Global Rankings</h1>
         <h2 className="text-2xl">Who's the best at fighting evil by moonlight?</h2>
       </div>
-      <div className={`absolute right-4 top-4 font-body flex ${token === null ? 'w-48' : 'w-96'} justify-around`}>
+      <div className={`absolute right-4 top-4 font-body flex ${token === null ? 'w-48' : 'w-1/3'} justify-around`}>
         <Link href="/">
           <a className="button">
             Home
@@ -26,6 +26,9 @@ export default function Header() {
             </Link>
           ) : (
             <>
+              <Link href="/tournament/add">
+                <a className="button">Add Tournament</a>
+              </Link>
               <Link href="/add-user">
                 <a className="button">
                   Add Admin
