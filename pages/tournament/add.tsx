@@ -13,7 +13,7 @@ export default function Add() {
     try {
       const res = await axios({
         method: "GET",
-        url: `/api/tournament/getfromweb?url=${tournamentUrl}`,
+        url: `/api/tournament/getfromweb`,
         params: {
           url: tournamentUrl
         }
