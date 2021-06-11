@@ -31,11 +31,11 @@ export default function Add() {
       </Head>
       <h2 className="text-center text-xl font-bold">Add Tournament</h2>
       <form onSubmit={getTournamentInfo}>
-        <fieldset>
+        <fieldset disabled={tournament !== null}>
           <input type="text" name="tournamentUrl" value={tournamentUrl} onChange={e => {
             setTournamentUrl(e.target.value)
           }} placeholder="Input Smash.gg or Challonge URL" />
-          <button className="button">Get tournament info</button>
+          <button className="button" disabled={tournament !== null}>Get tournament info</button>
         </fieldset>
       </form>
       {tournament && (
