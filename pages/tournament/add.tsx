@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import React, {useEffect, useState, useContext} from 'react'
+import { useRouter } from 'next/router'
 import axios from 'axios'
 import Select from 'react-select'
 import Creatable from 'react-select/creatable'
@@ -11,7 +12,6 @@ import type {TournamentInfo, PlayerInfo, MatchInfo} from './_types'
 import { getCountry } from '../../helpers/countries'
 import type { CountryInfo } from '../../helpers/_types'
 import { UserContext } from '../../contexts/UserContext'
-import { useRouter } from 'next/router'
 
 export default function Add() {
   const [tournament, setTournament] = useState<TournamentInfo|null>(null)
@@ -131,6 +131,11 @@ export default function Add() {
                 <p>Event date:</p>
                 <DatePicker value={new Date(tournament.tournamentDate)} onChange={value => {
                   setTournament({...tournament, tournamentDate: value.toISOString()})
+                }} />
+
+                <p>Youtube Replay:</p>
+                <input type="text" className="text-field" placeholder="Youtube Replay" value={tournament.replay} onChange={e => {
+                  setTournament({...tournament, replay: e.target.value})
                 }} />
               </div>
               <p className="w-2/5 mx-auto">Player list:</p>
