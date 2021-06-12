@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useContext} from 'react'
 import axios from 'axios'
 import Select from 'react-select'
 import Creatable from 'react-select/creatable'
@@ -10,12 +10,14 @@ import "react-calendar/dist/Calendar.css";
 import type {TournamentInfo} from './_types'
 import { getCountry } from '../../helpers/countries'
 import { CountryInfo } from '../../helpers/_types'
+import { UserContext } from '../../contexts/UserContext'
 
 export default function Add() {
   const [tournament, setTournament] = useState<TournamentInfo|null>(null)
   const [tournamentUrl, setTournamentUrl] = useState<string>("")
   const [countries, setCountries] = useState<CountryInfo[]>([])
   const [players, setPlayers] = useState<string[]>([])
+  const {token} = useContext(UserContext)
 
   useEffect(() => {
     assignCountries();
@@ -50,6 +52,21 @@ export default function Add() {
         return player.name
       });
       setPlayers(playerArr)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const submitTournament = async (e): Promise<void> => {
+    e.preventDefault();
+    const tournamentPlayers = tournament.players
+    players.forEach((player, index) => {
+      tournamentPlayers[index].name = player
+    })
+    try {
+      await axios({
+        method: 'POST'
+      })
     } catch (err) {
       console.log(err)
     }
@@ -114,6 +131,7 @@ export default function Add() {
                     </React.Fragment>
                   )
                 })}
+                <button type="submit" className="button mt-4">Add tournament</button>
               </div>
             </fieldset>
           </form>
