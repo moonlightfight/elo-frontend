@@ -3,6 +3,9 @@ import React, {useEffect, useState} from 'react'
 import axios from 'axios'
 import Select from 'react-select'
 import Creatable from 'react-select/creatable'
+import DatePicker from "react-date-picker/dist/entry.nostyle";
+import "react-date-picker/dist/DatePicker.css";
+import "react-calendar/dist/Calendar.css";
 
 import type {TournamentInfo} from './_types'
 import { getCountry } from '../../helpers/countries'
@@ -32,6 +35,15 @@ export default function Add() {
         params: {
           url: tournamentUrl
         }
+      })
+      res.data.players.sort((x, y) => {
+        if (x.place > y.place) {
+          return 1;
+        }
+        if (x.place < y.place) {
+          return -1
+        }
+        return 0;
       })
       setTournament(res.data)
       const playerArr: string[] = res.data.players.map(player => {
@@ -78,6 +90,11 @@ export default function Add() {
                   setTournament({...tournament, location: action.value})
                 }}
                 classNamePrefix="dropdown-select" />
+
+                <p>Event date:</p>
+                <DatePicker value={new Date(tournament.tournamentDate)} onChange={value => {
+                  setTournament({...tournament, tournamentDate: value.toISOString()})
+                }} />
               </div>
               <p className="w-2/5 mx-auto">Player list:</p>
               <div className="w-2/5 mx-auto p-4 grid player-grid">
