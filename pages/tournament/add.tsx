@@ -11,6 +11,7 @@ import type {TournamentInfo, PlayerInfo, MatchInfo} from './_types'
 import { getCountry } from '../../helpers/countries'
 import type { CountryInfo } from '../../helpers/_types'
 import { UserContext } from '../../contexts/UserContext'
+import { useRouter } from 'next/router'
 
 export default function Add() {
   const [tournament, setTournament] = useState<TournamentInfo|null>(null)
@@ -18,6 +19,7 @@ export default function Add() {
   const [countries, setCountries] = useState<CountryInfo[]>([])
   const [players, setPlayers] = useState<string[]>([])
   const {token} = useContext(UserContext)
+  const router = useRouter()
 
   useEffect(() => {
     assignCountries();
@@ -84,6 +86,7 @@ export default function Add() {
           tournament
         }
       })
+      router.push("/")
     } catch (err) {
       console.log(err)
     }
@@ -106,7 +109,7 @@ export default function Add() {
       {tournament && (
         <>
           <h3 className="text-center text-xl font-bold mt-4">Please check and validate the following tournament information</h3>
-          <form>
+          <form onSubmit={submitTournament}>
             <fieldset>
               <div className="w-1/3 mx-auto p-4">
                 <p>Event:</p>
