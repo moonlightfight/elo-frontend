@@ -7,9 +7,9 @@ import DatePicker from "react-date-picker/dist/entry.nostyle";
 import "react-date-picker/dist/DatePicker.css";
 import "react-calendar/dist/Calendar.css";
 
-import type {TournamentInfo} from './_types'
+import type {TournamentInfo, PlayerInfo, MatchInfo} from './_types'
 import { getCountry } from '../../helpers/countries'
-import { CountryInfo } from '../../helpers/_types'
+import type { CountryInfo } from '../../helpers/_types'
 import { UserContext } from '../../contexts/UserContext'
 
 export default function Add() {
@@ -59,13 +59,30 @@ export default function Add() {
 
   const submitTournament = async (e): Promise<void> => {
     e.preventDefault();
-    const tournamentPlayers = tournament.players
+    const tournamentPlayers: PlayerInfo[] = tournament.players
+    const matches: MatchInfo[] = tournament.matches;
     players.forEach((player, index) => {
       tournamentPlayers[index].name = player
     })
+    matches.forEach(match => {
+      const winner = tournamentPlayers.findIndex(x => {
+        return x.id === match.winnerId
+      })
+      const loser = tournamentPlayers.findIndex(x => {
+        return x.id === match.loserId
+      })
+      match.winnerName = tournamentPlayers[winner].name
+      match.loserName = tournamentPlayers[loser].name
+    })
+    setTournament({...tournament, players: tournamentPlayers, matches})
     try {
       await axios({
-        method: 'POST'
+        method: 'POST',
+        url: '/api/tournament',
+        data: {
+          token,
+          tournament
+        }
       })
     } catch (err) {
       console.log(err)

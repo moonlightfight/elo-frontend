@@ -1,4 +1,4 @@
-interface MatchInfo {
+export interface MatchInfo {
   winnerId: number;
   winnerName: string;
   loserId: number;
@@ -8,7 +8,7 @@ interface MatchInfo {
   matchDate: string;
 }
 
-interface PlayerInfo {
+export interface PlayerInfo {
   id: number;
   name: string;
   place: number;
