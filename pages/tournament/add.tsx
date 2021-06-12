@@ -1,14 +1,29 @@
 import Head from 'next/head'
-import {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import axios from 'axios'
+import Select from 'react-select'
+import Creatable from 'react-select/creatable'
 
 import type {TournamentInfo} from './_types'
+import { getCountry } from '../../helpers/countries'
+import { CountryInfo } from '../../helpers/_types'
 
 export default function Add() {
   const [tournament, setTournament] = useState<TournamentInfo|null>(null)
   const [tournamentUrl, setTournamentUrl] = useState<string>("")
+  const [countries, setCountries] = useState<CountryInfo[]>([])
+  const [players, setPlayers] = useState<string[]>([])
 
-  const getTournamentInfo = async (e): void => {
+  useEffect(() => {
+    assignCountries();
+  })
+
+  const assignCountries = async () => {
+    const countryData: CountryInfo[] = await getCountry();
+    setCountries(countryData)
+  }
+
+  const getTournamentInfo = async (e): Promise<void> => {
     e.preventDefault()
     try {
       const res = await axios({
@@ -19,6 +34,10 @@ export default function Add() {
         }
       })
       setTournament(res.data)
+      const playerArr: string[] = res.data.players.map(player => {
+        return player.name
+      });
+      setPlayers(playerArr)
     } catch (err) {
       console.log(err)
     }
@@ -44,9 +63,40 @@ export default function Add() {
           <form>
             <fieldset>
               <div className="w-1/3 mx-auto p-4">
+                <p>Event:</p>
                 <input type="text" className="text-field" placeholder="Tournament Name" value={tournament.title} onChange={e => {
                   setTournament({...tournament, title: e.target.value})
                 }} />
+
+                <p>Event country:</p>
+                <Select className="dropdown-select" options={countries.map(country => {
+                  return {
+                    label: country.name,
+                    value: country.alpha3Code
+                  }
+                })} onChange={action => {
+                  setTournament({...tournament, location: action.value})
+                }}
+                classNamePrefix="dropdown-select" />
+              </div>
+              <p className="w-2/5 mx-auto">Player list:</p>
+              <div className="w-2/5 mx-auto p-4 grid player-grid">
+                {tournament.players.map((player, index) => {
+                  return (
+                    <React.Fragment key={player.id}>
+                      <div>
+                        <p>{player.name}</p>
+                      </div>
+                      <div>
+                        <Creatable defaultValue={{label: players[index]}} value={{label: players[index]}} classNamePrefix="dropdown-select" className="dropdown-select" onChange={action => {
+                          const playerList = players;
+                          playerList[index] = action.label;
+                          setPlayers([...playerList])
+                        }} />
+                      </div>
+                    </React.Fragment>
+                  )
+                })}
               </div>
             </fieldset>
           </form>

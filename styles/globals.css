@@ -42,3 +42,32 @@
 .text-field:disabled {
   @apply border-purple-200;
 }
+
+.flag-image {
+  display: inline-block;
+  border: 1px solid black;
+}
+
+.dropdown-select .dropdown-select__indicator svg {
+  @apply fill-current;
+  @apply text-blue-200;
+}
+
+.dropdown-select .dropdown-select__indicator-separator {
+  @apply bg-blue-200;
+}
+
+.dropdown-select .dropdown-select__control {
+  @apply border-blue-200;
+  @apply border-0;
+  @apply border-b-4;
+}
+
+.dropdown-select .dropdown-select__single-value {
+  @apply text-black;
+}
+
+.player-grid {
+  grid-template-columns: 1fr 3fr;
+  align-items: center;
+}

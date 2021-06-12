@@ -18,6 +18,7 @@ export interface TournamentInfo {
   title: string;
   numPlayers: number;
   tournamentDate: string;
+  location: string | null;
   matches: MatchInfo[];
   players: PlayerInfo[];
 }
