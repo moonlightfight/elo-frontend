@@ -23,3 +23,13 @@ export interface TournamentInfo {
   matches: MatchInfo[];
   players: PlayerInfo[];
 }
+
+export interface ApiPlayer {
+
+}
+
+export interface Character {
+  _id: string;
+  name: string;
+  imageLink: string;
+}

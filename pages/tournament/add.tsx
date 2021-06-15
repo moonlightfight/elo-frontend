@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import React, {useEffect, useState, useContext} from 'react'
+import React, {useEffect, useState, useContext, useCallback} from 'react'
 import { useRouter } from 'next/router'
 import axios from 'axios'
 import Select from 'react-select'
@@ -8,7 +8,7 @@ import DatePicker from "react-date-picker/dist/entry.nostyle";
 import "react-date-picker/dist/DatePicker.css";
 import "react-calendar/dist/Calendar.css";
 
-import type {TournamentInfo, PlayerInfo, MatchInfo} from './_types'
+import {TournamentInfo, PlayerInfo, MatchInfo, Character} from './_types'
 import { getCountry } from '../../helpers/countries'
 import type { CountryInfo } from '../../helpers/_types'
 import { UserContext } from '../../contexts/UserContext'
@@ -17,17 +17,42 @@ export default function Add() {
   const [tournament, setTournament] = useState<TournamentInfo|null>(null)
   const [tournamentUrl, setTournamentUrl] = useState<string>("")
   const [countries, setCountries] = useState<CountryInfo[]>([])
+  const [playerApi, setPlayerApi] = useState()
+  const [characters, setCharacters] = useState<Character[]>([])
   const [players, setPlayers] = useState<string[]>([])
   const {token} = useContext(UserContext)
   const router = useRouter()
 
-  useEffect(() => {
-    assignCountries();
-  })
+  const getData = useCallback(async () => {
+    await assignCountries();
+    await assignCharacters();
+  }, [])
 
   const assignCountries = async () => {
-    const countryData: CountryInfo[] = await getCountry();
-    setCountries(countryData)
+    if (countries.length === 0) {
+      const countryData: CountryInfo[] = await getCountry();
+      setCountries(countryData)
+    }
+  }
+  
+  useEffect(() => {
+    getData()
+  }, [getData])
+
+  const assignPlayers = async () => {
+    
+    
+  }
+  
+  const assignCharacters = async () => {
+    if (characters.length === 0) {
+      try {
+        const res = await axios.get('/api/character')
+        setCharacters(res.data)
+      } catch (e) {
+        console.log(e)
+      }
+    }
   }
 
   const getTournamentInfo = async (e): Promise<void> => {
