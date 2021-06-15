@@ -9,9 +9,10 @@ export interface MatchInfo {
 }
 
 export interface PlayerInfo {
-  id: number;
+  id: number | string | null;
   name: string;
   place: number;
+  characters: string[] | null;
 }
 
 export interface TournamentInfo {
@@ -51,4 +52,10 @@ export interface Character {
   _id: string;
   name: string;
   imageLink: string;
+}
+
+export interface PlayerSetup {
+  _id: string | null;
+  name: string;
+  characters: string[];
 }

@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import React, {useEffect, useState, useContext, useCallback} from 'react'
+import React, { useEffect, useState, useContext, useCallback } from 'react'
 import { useRouter } from 'next/router'
 import axios from 'axios'
 import Select from 'react-select'
@@ -8,7 +8,7 @@ import DatePicker from "react-date-picker/dist/entry.nostyle";
 import "react-date-picker/dist/DatePicker.css";
 import "react-calendar/dist/Calendar.css";
 
-import {TournamentInfo, PlayerInfo, MatchInfo, Character, ApiPlayer} from './_types'
+import { TournamentInfo, PlayerInfo, MatchInfo, Character, ApiPlayer, PlayerSetup } from './_types'
 import { getCountry } from '../../helpers/countries'
 import type { CountryInfo } from '../../helpers/_types'
 import { UserContext } from '../../contexts/UserContext'
@@ -19,7 +19,7 @@ export default function Add() {
   const [countries, setCountries] = useState<CountryInfo[]>([])
   const [playerApi, setPlayerApi] = useState<ApiPlayer[]>([])
   const [characters, setCharacters] = useState<Character[]>([])
-  const [players, setPlayers] = useState<string[]>([])
+  const [players, setPlayers] = useState<PlayerSetup[]>([])
   const {token} = useContext(UserContext)
   const router = useRouter()
 
@@ -78,8 +78,10 @@ export default function Add() {
         return 0;
       })
       setTournament(res.data)
-      const playerArr: string[] = res.data.players.map(player => {
-        return player.name
+      const playerArr: PlayerSetup[] = res.data.players.map(player => {
+        return {
+          name: player.name
+        }
       });
       setPlayers(playerArr)
     } catch (err) {
@@ -92,7 +94,9 @@ export default function Add() {
     const tournamentPlayers: PlayerInfo[] = tournament.players
     const matches: MatchInfo[] = tournament.matches;
     players.forEach((player, index) => {
-      tournamentPlayers[index].name = player
+      tournamentPlayers[index].name = player.name
+      tournamentPlayers[index].id = player._id
+      tournamentPlayers[index].characters = player.characters;
     })
     matches.forEach(match => {
       const winner = tournamentPlayers.findIndex(x => {
@@ -175,10 +179,25 @@ export default function Add() {
                         <p>{player.name}</p>
                       </div>
                       <div>
-                        <Creatable defaultValue={{label: players[index]}} value={{label: players[index]}} classNamePrefix="dropdown-select" className="dropdown-select" onChange={action => {
-                          const playerList = players;
-                          playerList[index] = action.label;
-                          setPlayers([...playerList])
+                        <Creatable 
+                          defaultValue={{label: players[index].name, value: players[index]._id}} 
+                          value={{label: players[index].name, value: players[index]._id}} 
+                          classNamePrefix="dropdown-select" 
+                          className="dropdown-select"
+                          options={playerApi.map(player => {
+                            return {
+                              label: player.username,
+                              value: player._id,
+                            }
+                          })} 
+                          onChange={action => {
+                            const playerList = players;
+                            playerList[index] = {
+                              _id: action.value,
+                              name: action.label,
+                              characters: []
+                            };
+                            setPlayers([...playerList])
                         }} />
                       </div>
                     </React.Fragment>
