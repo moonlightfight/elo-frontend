@@ -25,7 +25,26 @@ export interface TournamentInfo {
 }
 
 export interface ApiPlayer {
-
+  _id: string;
+  slug: string;
+  username: string;
+  country: string;
+  ranking: number;
+  points: number;
+  controller: string;
+  realName: string;
+  twitter: string;
+  twitch: string;
+  picture: string;
+  team: {
+    _id: string;
+    slug: string;
+    name: string;
+  };
+  tournaments: string[];
+  matches: string[];
+  mainCharacter: string;
+  subCharacters: string[];
 }
 
 export interface Character {

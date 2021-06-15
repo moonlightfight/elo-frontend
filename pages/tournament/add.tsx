@@ -8,7 +8,7 @@ import DatePicker from "react-date-picker/dist/entry.nostyle";
 import "react-date-picker/dist/DatePicker.css";
 import "react-calendar/dist/Calendar.css";
 
-import {TournamentInfo, PlayerInfo, MatchInfo, Character} from './_types'
+import {TournamentInfo, PlayerInfo, MatchInfo, Character, ApiPlayer} from './_types'
 import { getCountry } from '../../helpers/countries'
 import type { CountryInfo } from '../../helpers/_types'
 import { UserContext } from '../../contexts/UserContext'
@@ -17,7 +17,7 @@ export default function Add() {
   const [tournament, setTournament] = useState<TournamentInfo|null>(null)
   const [tournamentUrl, setTournamentUrl] = useState<string>("")
   const [countries, setCountries] = useState<CountryInfo[]>([])
-  const [playerApi, setPlayerApi] = useState()
+  const [playerApi, setPlayerApi] = useState<ApiPlayer[]>([])
   const [characters, setCharacters] = useState<Character[]>([])
   const [players, setPlayers] = useState<string[]>([])
   const {token} = useContext(UserContext)
@@ -26,6 +26,7 @@ export default function Add() {
   const getData = useCallback(async () => {
     await assignCountries();
     await assignCharacters();
+    await assignPlayers();
   }, [])
 
   const assignCountries = async () => {
@@ -35,14 +36,16 @@ export default function Add() {
     }
   }
   
+  const assignPlayers = async () => {
+    if (playerApi.length === 0) {
+      const res = await axios.get('/api/player')
+      setPlayerApi(res.data)
+    }
+  }
+
   useEffect(() => {
     getData()
   }, [getData])
-
-  const assignPlayers = async () => {
-    
-    
-  }
   
   const assignCharacters = async () => {
     if (characters.length === 0) {
