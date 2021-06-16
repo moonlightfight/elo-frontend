@@ -95,7 +95,6 @@ export default function Add() {
     const matches: MatchInfo[] = tournament.matches;
     players.forEach((player, index) => {
       tournamentPlayers[index].name = player.name
-      tournamentPlayers[index].id = player._id
       tournamentPlayers[index].characters = player.characters;
     })
     matches.forEach(match => {
@@ -180,16 +179,15 @@ export default function Add() {
                       </div>
                       <div>
                         <Creatable 
-                          defaultValue={{label: players[index].name, value: players[index]._id}} 
-                          value={{label: players[index].name, value: players[index]._id}} 
                           classNamePrefix="dropdown-select" 
                           className="dropdown-select"
-                          options={playerApi.map(player => {
+                          placeholder="Choose player..."
+                          options={playerApi ? playerApi.map(player => {
                             return {
                               label: player.username,
                               value: player._id,
                             }
-                          })} 
+                          }) : null} 
                           onChange={action => {
                             const playerList = players;
                             playerList[index] = {
@@ -198,6 +196,26 @@ export default function Add() {
                               characters: []
                             };
                             setPlayers([...playerList])
+                        }} />
+                      </div>
+                      <div>
+                        <Select 
+                        isMulti={true} 
+                        className="dropdown-select" 
+                        classNamePrefix="dropdown-select" 
+                        placeholder="Choose characters used..." 
+                        options={characters.map(character => {
+                          return {
+                            label: character.name,
+                            value: character._id
+                          }
+                        })}
+                        onChange={(action) => {
+                          const playerList = players;
+                          playerList[index].characters = action.map(char => {
+                            return char.value
+                          })
+                          setPlayers([...playerList])
                         }} />
                       </div>
                     </React.Fragment>
