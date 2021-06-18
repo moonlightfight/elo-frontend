@@ -1,7 +1,7 @@
 export interface MatchInfo {
-  winnerId: number;
+  winnerId: number | string;
   winnerName: string;
-  loserId: number;
+  loserId: number | string;
   loserName: string;
   winnerScore: number;
   loserScore: number;

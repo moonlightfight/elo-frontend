@@ -107,6 +107,23 @@ export default function Add() {
       match.winnerName = tournamentPlayers[winner].name
       match.loserName = tournamentPlayers[loser].name
     })
+    tournamentPlayers.forEach((player, index) => {
+      if (players[index]._id) {
+        player.id = players[index]._id
+      } else {
+        player.id = ""
+      }
+    })
+    matches.forEach(match => {
+      const winner = players.findIndex(x => {
+        return x.name === match.winnerName
+      })
+      const loser = players.findIndex(x => {
+        return x.name === match.loserName
+      })
+      match.winnerId = players[winner]._id
+      match.loserId = players[loser]._id
+    })
     setTournament({...tournament, players: tournamentPlayers, matches})
     try {
       await axios({
@@ -191,7 +208,7 @@ export default function Add() {
                           onChange={action => {
                             const playerList = players;
                             playerList[index] = {
-                              _id: action.value,
+                              _id: action.value !== action.label ? action.value : null,
                               name: action.label,
                               characters: []
                             };
