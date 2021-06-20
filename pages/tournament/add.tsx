@@ -43,6 +43,21 @@ export default function Add() {
     }
   }
 
+  const addPlayer = async (name: string): Promise<string> => {
+    try {
+      const res = await axios({
+        method: "POST",
+        url: "/api/player",
+        data: {
+          name
+        }
+      })
+      return res.data.InsertedID
+    } catch(e) {
+      console.log(e)
+    }
+  }
+
   useEffect(() => {
     getData()
   }, [getData])
@@ -205,10 +220,19 @@ export default function Add() {
                               value: player._id,
                             }
                           }) : null} 
-                          onChange={action => {
+                          onChange={async action => {
                             const playerList = players;
+                            let id: string;
+                            switch (action.value) {
+                              case action.label:
+                                id = await addPlayer(action.label)
+                                break;
+                              default:
+                                id = action.label
+                                break;
+                            }
                             playerList[index] = {
-                              _id: action.value !== action.label ? action.value : null,
+                              _id: id,
                               name: action.label,
                               characters: []
                             };
