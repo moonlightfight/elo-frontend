@@ -39,7 +39,7 @@ export default function Add() {
   const assignPlayers = async () => {
     if (playerApi.length === 0) {
       const res = await axios.get('/api/player')
-      setPlayerApi(res.data)
+      setPlayerApi(res.data.players)
     }
   }
 
@@ -228,7 +228,7 @@ export default function Add() {
                                 id = await addPlayer(action.label)
                                 break;
                               default:
-                                id = action.label
+                                id = action.value
                                 break;
                             }
                             playerList[index] = {
