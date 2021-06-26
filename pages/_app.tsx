@@ -2,6 +2,7 @@ import Header from '../components/common/Header'
 import UserContextProvider from '../contexts/UserContext'
 import '../styles/globals.css'
 import 'tailwindcss/tailwind.css'
+import '../i18n'
 
 function MyApp({ Component, pageProps }) {
   return (
