@@ -7,4 +7,8 @@ module.exports = {
       },
     ];
   },
+  i18n: {
+    locales: ['en', 'ja', 'ko', 'zh', 'it', 'pt', 'es'],
+    defaultLocale: 'en'
+  }
 };
