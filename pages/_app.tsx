@@ -1,8 +1,8 @@
 import Header from '../components/common/Header'
 import UserContextProvider from '../contexts/UserContext'
+import { appWithTranslation } from 'next-i18next'
 import '../styles/globals.css'
 import 'tailwindcss/tailwind.css'
-import '../i18n'
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -17,4 +17,4 @@ function MyApp({ Component, pageProps }) {
   )
 }
 
-export default MyApp
+export default appWithTranslation(MyApp)

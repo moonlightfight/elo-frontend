@@ -1,6 +1,48 @@
 {
-  "add_tournament": "Add Tournament",
-  "login": "Admin Login",
-  "logout": "Logout",
-  "email": "Email"
+  "header": {
+    "title": "Sailor Moon S Global Rankings",
+    "subtitle": "Who's the best at fighting evil by moonlight?",
+    "login": "Login",
+    "logout": "Logout",
+    "add": {
+      "admin": "Add Admin",
+      "tournament": "Add Tournament"
+    },
+    "home": "Home"
+  },
+  "meta": {
+    "subtitle": "SMS Global Rankings"
+  },
+  "login": {
+    "heading": {
+      "login": "Admin Login",
+      "add": "Create Admin"
+    },
+    "email": "Email Address",
+    "password": "Password",
+    "username": "Username",
+    "clipboard": {
+      "copy": "Copy to Clipboard",
+      "copied": "Copied!"
+    }
+  },
+  "tournament": {
+    "add": {
+      "get": {
+        "url": "Input Smash.gg or Challonge URL",
+        "info": "Get tournament info"
+      },
+      "check": "Please check and validate the following tournament information",
+      "event": "Event",
+      "name": "Tournament Name",
+      "country": "Event country",
+      "date": "Event date",
+      "replay": "Youtube replay",
+      "player": {
+        "list": "Player list",
+        "choose": "Choose player...",
+        "characters": "Choose characters used..."
+      }
+    }
+  }
 }

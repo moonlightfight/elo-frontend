@@ -7,6 +7,7 @@ import Creatable from 'react-select/creatable'
 import DatePicker from "react-date-picker/dist/entry.nostyle";
 import "react-date-picker/dist/DatePicker.css";
 import "react-calendar/dist/Calendar.css";
+import { useTranslation } from 'next-i18next'
 
 import { TournamentInfo, PlayerInfo, MatchInfo, Character, ApiPlayer, PlayerSetup } from './_types'
 import { getCountry } from '../../helpers/countries'
@@ -14,14 +15,15 @@ import type { CountryInfo } from '../../helpers/_types'
 import { UserContext } from '../../contexts/UserContext'
 
 export default function Add() {
-  const [tournament, setTournament] = useState<TournamentInfo|null>(null)
+  const [tournament, setTournament] = useState<TournamentInfo | null>(null)
   const [tournamentUrl, setTournamentUrl] = useState<string>("")
   const [countries, setCountries] = useState<CountryInfo[]>([])
   const [playerApi, setPlayerApi] = useState<ApiPlayer[]>([])
   const [characters, setCharacters] = useState<Character[]>([])
   const [players, setPlayers] = useState<PlayerSetup[]>([])
-  const {token} = useContext(UserContext)
+  const { token } = useContext(UserContext)
   const router = useRouter()
+  const { t } = useTranslation();
 
   const getData = useCallback(async () => {
     await assignCountries();
@@ -35,7 +37,7 @@ export default function Add() {
       setCountries(countryData)
     }
   }
-  
+
   const assignPlayers = async () => {
     if (playerApi.length === 0) {
       const res = await axios.get('/api/player')
@@ -53,7 +55,7 @@ export default function Add() {
         }
       })
       return res.data.InsertedID
-    } catch(e) {
+    } catch (e) {
       console.log(e)
     }
   }
@@ -61,7 +63,7 @@ export default function Add() {
   useEffect(() => {
     getData()
   }, [getData])
-  
+
   const assignCharacters = async () => {
     if (characters.length === 0) {
       try {
@@ -139,7 +141,7 @@ export default function Add() {
       match.winnerId = players[winner]._id
       match.loserId = players[loser]._id
     })
-    setTournament({...tournament, players: tournamentPlayers, matches})
+    setTournament({ ...tournament, players: tournamentPlayers, matches })
     try {
       await axios({
         method: 'POST',
@@ -158,50 +160,50 @@ export default function Add() {
   return (
     <div>
       <Head>
-        <title>Add Tournament - SMS Global Rankings</title>
+        <title>{t('header.add.tournament')} - {t('meta.subtitle')}</title>
       </Head>
-      <h2 className="text-center text-xl font-bold mt-4">Add Tournament</h2>
+      <h2 className="text-center text-xl font-bold mt-4">{t('header.add.tournament')}</h2>
       <form onSubmit={getTournamentInfo} className="mx-auto w-1/3 p-4">
         <fieldset disabled={tournament !== null}>
           <input type="text" name="tournamentUrl" className="text-field" value={tournamentUrl} onChange={e => {
             setTournamentUrl(e.target.value)
-          }} placeholder="Input Smash.gg or Challonge URL" />
-          <button className="button" disabled={tournament !== null}>Get tournament info</button>
+          }} placeholder={t('tournament.add.get.url')} />
+          <button className="button" disabled={tournament !== null}>{t('tournament.add.get.info')}</button>
         </fieldset>
       </form>
       {tournament && (
         <>
-          <h3 className="text-center text-xl font-bold mt-4">Please check and validate the following tournament information</h3>
+          <h3 className="text-center text-xl font-bold mt-4">{t('tournament.add.check')}</h3>
           <form onSubmit={submitTournament}>
             <fieldset>
               <div className="w-1/3 mx-auto p-4">
-                <p>Event:</p>
-                <input type="text" className="text-field" placeholder="Tournament Name" value={tournament.title} onChange={e => {
-                  setTournament({...tournament, title: e.target.value})
+                <p>{t('tournament.add.event')}:</p>
+                <input type="text" className="text-field" placeholder={t('tournament.add.name')} value={tournament.title} onChange={e => {
+                  setTournament({ ...tournament, title: e.target.value })
                 }} />
 
-                <p>Event country:</p>
+                <p>{t('tournament.add.country')}:</p>
                 <Select className="dropdown-select" options={countries.map(country => {
                   return {
                     label: country.name,
                     value: country.alpha3Code
                   }
                 })} onChange={action => {
-                  setTournament({...tournament, location: action.value})
+                  setTournament({ ...tournament, location: action.value })
                 }}
-                classNamePrefix="dropdown-select" />
+                  classNamePrefix="dropdown-select" />
 
-                <p>Event date:</p>
+                <p>{t('tournament.add.date')}:</p>
                 <DatePicker value={new Date(tournament.tournamentDate)} onChange={value => {
-                  setTournament({...tournament, tournamentDate: value.toISOString()})
+                  setTournament({ ...tournament, tournamentDate: value.toISOString() })
                 }} />
 
-                <p>Youtube Replay:</p>
-                <input type="text" className="text-field" placeholder="Youtube Replay" value={tournament.replay} onChange={e => {
-                  setTournament({...tournament, replay: e.target.value})
+                <p>{t('tournament.add.replay')}:</p>
+                <input type="text" className="text-field" placeholder={t('tournament.add.replay')} value={tournament.replay} onChange={e => {
+                  setTournament({ ...tournament, replay: e.target.value })
                 }} />
               </div>
-              <p className="w-2/5 mx-auto">Player list:</p>
+              <p className="w-2/5 mx-auto">{t('tournament.add.player.list')}:</p>
               <div className="w-2/5 mx-auto p-4 grid player-grid">
                 {tournament.players.map((player, index) => {
                   return (
@@ -210,16 +212,16 @@ export default function Add() {
                         <p>{player.name}</p>
                       </div>
                       <div>
-                        <Creatable 
-                          classNamePrefix="dropdown-select" 
+                        <Creatable
+                          classNamePrefix="dropdown-select"
                           className="dropdown-select"
-                          placeholder="Choose player..."
+                          placeholder={t('tournament.add.player.choose')}
                           options={playerApi ? playerApi.map(player => {
                             return {
                               label: player.username,
                               value: player._id,
                             }
-                          }) : null} 
+                          }) : null}
                           onChange={async action => {
                             const playerList = players;
                             let id: string;
@@ -237,32 +239,32 @@ export default function Add() {
                               characters: []
                             };
                             setPlayers([...playerList])
-                        }} />
+                          }} />
                       </div>
                       <div>
-                        <Select 
-                        isMulti={true} 
-                        className="dropdown-select" 
-                        classNamePrefix="dropdown-select" 
-                        placeholder="Choose characters used..." 
-                        options={characters.map(character => {
-                          return {
-                            label: character.name,
-                            value: character._id
-                          }
-                        })}
-                        onChange={(action) => {
-                          const playerList = players;
-                          playerList[index].characters = action.map(char => {
-                            return char.value
-                          })
-                          setPlayers([...playerList])
-                        }} />
+                        <Select
+                          isMulti={true}
+                          className="dropdown-select"
+                          classNamePrefix="dropdown-select"
+                          placeholder={t('tournament.add.player.characters')}
+                          options={characters.map(character => {
+                            return {
+                              label: character.name,
+                              value: character._id
+                            }
+                          })}
+                          onChange={(action) => {
+                            const playerList = players;
+                            playerList[index].characters = action.map(char => {
+                              return char.value
+                            })
+                            setPlayers([...playerList])
+                          }} />
                       </div>
                     </React.Fragment>
                   )
                 })}
-                <button type="submit" className="button mt-4">Add tournament</button>
+                <button type="submit" className="button mt-4">{t('header.add.tournament')}</button>
               </div>
             </fieldset>
           </form>
