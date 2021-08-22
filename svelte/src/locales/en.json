@@ -1,6 +1,13 @@
 {
   "header": {
     "title": "Sailor Moon S Global Rankings",
-    "subtitle": "Who's the best at fighting evil by moonlight?"
+    "subtitle": "Who's the best at fighting evil by moonlight?",
+    "home": "Home",
+    "login": "Login",
+    "logout": "Logout",
+    "add": {
+      "tournament": "Add Tournament",
+      "admin": "Add Admin"
+    }
   }
 }
