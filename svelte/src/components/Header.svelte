@@ -18,7 +18,7 @@
   </div>
   <div
     class={`absolute right-4 top-4 font-body flex ${
-      userToken === null ? "w-48" : "w-1/3"
+      !userToken ? "w-48" : "w-1/3"
     } justify-around`}
   >
     <a href={$url("/")} class="button">{$_("header.home")}</a>
