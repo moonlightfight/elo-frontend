@@ -1,3 +1,6 @@
 {
-  "header.title": "Sailor Moon S Global Rankings"
+  "header": {
+    "title": "Sailor Moon S Global Rankings",
+    "subtitle": "Who's the best at fighting evil by moonlight?"
+  }
 }
