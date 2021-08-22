@@ -1,7 +1,6 @@
 <script lang="ts">
   import { _ } from "svelte-i18n";
-  const userToken = localStorage.getItem("elo_token");
-  console.log(userToken);
+  $: userToken = localStorage.getItem("elo_token");
 </script>
 
 <div class="bg-hero w-full h-96 bg-top bg-fixed relative shadow-md">
