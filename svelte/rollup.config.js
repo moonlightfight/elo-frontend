@@ -5,6 +5,7 @@ import commonjs from "@rollup/plugin-commonjs";
 import livereload from "rollup-plugin-livereload";
 import { terser } from "rollup-plugin-terser";
 import typescript from "@rollup/plugin-typescript";
+import json from "@rollup/plugin-json";
 import { copySync, removeSync } from "fs-extra";
 import { spassr } from "spassr";
 import getConfig from "@roxi/routify/lib/utils/config";
@@ -66,6 +67,7 @@ export default {
       dedupe: (importee) => !!importee.match(/svelte(\/|$)/),
     }),
     commonjs(),
+    json(),
     typescript({
       sourceMap: !production,
       inlineSources: !production,

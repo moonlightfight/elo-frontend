@@ -1,6 +1,8 @@
 <script lang="ts">
   import { Router } from "@roxi/routify";
   import { routes } from "../.routify/routes";
+
+  import "./i18n";
 </script>
 
 <Router {routes} />
