@@ -3,7 +3,7 @@
 </script>
 
 <!-- routify:options preload="proximity" -->
-<div>
+<div class="font-body">
   <Header />
   <slot />
 </div>

@@ -9,5 +9,18 @@
       "tournament": "Add Tournament",
       "admin": "Add Admin"
     }
+  },
+  "login": {
+    "heading": {
+      "login": "Admin Login",
+      "admin": "Create Admin"
+    },
+    "email": "Email Address",
+    "password": "Password",
+    "username": "Username",
+    "clipboard": {
+      "copy": "Copy to Clipboard",
+      "copied": "Copied!"
+    }
   }
 }

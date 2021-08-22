@@ -26,7 +26,7 @@
 </script>
 
 <div class="mx-auto w-1/3 p-4">
-  <h2 class="text-center text-xl font-bold">{$_("login.heading")}</h2>
+  <h2 class="text-center text-xl font-bold">{$_("login.heading.login")}</h2>
   <form
     on:submit={(e) => {
       e.preventDefault();
