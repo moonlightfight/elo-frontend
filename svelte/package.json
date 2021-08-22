@@ -65,6 +65,7 @@
    },
    "dependencies": {
       "@fullhuman/postcss-purgecss": "^4.0.3",
+      "axios": "^0.21.1",
       "svelte-i18n": "^3.3.9",
       "svelte-select": "^4.4.0"
    }
